@@ -24,7 +24,7 @@ export const About = () => {
                 with modern web development practices.
               </p>
               <p className="text-lg text-gray-600">
-                With two years of experience in web development, I've built a strong foundation in creating responsive and 
+                With two years of experience in web development, I have built a strong foundation in creating responsive and 
                 efficient web applications. This unique combination of skills allows me to approach problems from both 
                 hardware and software perspectives, enabling me to develop comprehensive solutions.
               </p>
