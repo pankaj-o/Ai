@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaReact, FaNodeJs, FaPython, FaGitAlt, FaDocker } from 'react-icons/fa';
+import { FaReact, FaNodeJs, FaGitAlt } from 'react-icons/fa';
 import { SiJavascript, SiTailwindcss, SiNextdotjs, SiArduino, SiMongodb } from 'react-icons/si';
 import { BsCpu, BsMotherboard } from 'react-icons/bs';
 
