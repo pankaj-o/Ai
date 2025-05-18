@@ -114,7 +114,7 @@ export const Contact = () => {
                 </button>
                 {status.submitted && (
                   <p className="text-green-600 text-center mt-2">
-                    Thank you for your message! I&apos;ll get back to you soon.
+                    Thank you for your message! I will get back to you soon.
                   </p>
                 )}
                 {status.error && (
@@ -130,7 +130,7 @@ export const Contact = () => {
               <div>
                 <h3 className="text-2xl font-semibold mb-4">Get in Touch</h3>
                 <p className="text-gray-600">
-                  I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+                  Im always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
                 </p>
               </div>
               <div>

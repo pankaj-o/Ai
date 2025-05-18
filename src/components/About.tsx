@@ -19,7 +19,7 @@ export const About = () => {
             </div>
             <div className="space-y-6">
               <p className="text-lg text-gray-600">
-                I&apos;m currently pursuing my Master&apos;s in Electronics Engineering with a focus on Embedded Systems and SystemVerilog. 
+                I am currently pursuing my Masters in Electronics Engineering with a focus on Embedded Systems and SystemVerilog. 
                 My passion lies in the intersection of hardware and software, where I combine my expertise in electronic design 
                 with modern web development practices.
               </p>
