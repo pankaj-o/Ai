@@ -29,8 +29,8 @@ export const Contact = () => {
 
     try {
       await emailjs.send(
-        'service_xxxxxxx', // Replace with your EmailJS service ID
-        'template_xxxxxxx', // Replace with your EmailJS template ID
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         {
           from_name: formData.name,
           from_email: formData.email,
@@ -39,7 +39,7 @@ export const Contact = () => {
           to_email: 'er.pankaj2021@gmail.com',
           reply_to: formData.email
         },
-        'public_key_xxxxxxx' // Replace with your EmailJS public key
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
       setStatus({ submitting: false, submitted: true, error: false });
