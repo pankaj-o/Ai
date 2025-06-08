@@ -145,7 +145,7 @@ export const Contact = () => {
                     <FaGithub size={24} />
                   </a>
                   <a
-                    href="https://linkedin.com/in/yourusername"
+                    href="https://linkedin.com/in/pankaj-sharma-75597a181"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-600 hover:text-gray-900"

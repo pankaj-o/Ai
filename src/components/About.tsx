@@ -8,25 +8,28 @@ export const About = () => {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12">About Me</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[400px] rounded-lg overflow-hidden">
+            <div className="relative w-full aspect-square rounded-lg overflow-hidden">
               <Image
                 src="/profile.jpg"
                 alt="Profile picture"
                 fill
-                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain"
                 priority
+                quality={100}
               />
             </div>
             <div className="space-y-6">
               <p className="text-lg text-gray-600">
-                I am currently pursuing my Masters in Electronics Engineering with a focus on Embedded Systems and SystemVerilog. 
+                I&apos;m currently pursuing my Master&apos;s in Electronics Engineering with a focus on Embedded Systems and SystemVerilog. 
                 My passion lies in the intersection of hardware and software, where I combine my expertise in electronic design 
                 with modern web development practices.
               </p>
               <p className="text-lg text-gray-600">
                 With two years of experience in web development, I have built a strong foundation in creating responsive and 
-                efficient web applications. This unique combination of skills allows me to approach problems from both 
-                hardware and software perspectives, enabling me to develop comprehensive solutions.
+                efficient web applications. Additionally, I am actively working on hardware verification projects using SystemVerilog, 
+                including the verification of synchronous FIFOs and Gray code counters. This unique combination of skills allows me 
+                to approach problems from both hardware and software perspectives, enabling me to develop comprehensive solutions.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
@@ -37,7 +40,7 @@ export const About = () => {
                 <div className="space-y-2">
                   <h3 className="font-semibold text-gray-900">Experience</h3>
                   <p className="text-gray-600">2+ Years in Web Development</p>
-                  <p className="text-gray-600">Embedded Systems Research</p>
+                  <p className="text-gray-600">Hardware Verification & Embedded Systems</p>
                 </div>
               </div>
               <div className="pt-4">
