@@ -23,7 +23,6 @@ export const Contact = () => {
             transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
           }}
         >
-          {/* Front Face */}
           <div className="card-face card-front">
             <Image
               src="/Contactme.jpg"
@@ -48,8 +47,6 @@ export const Contact = () => {
               Click the button below to send me an email. I look forward to hearing from you!
             </p>
           </div>
-
-          {/* Back Face */}
           <div className="card-face card-back">
             <h2 className="text-2xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text mb-4">
               Let&rsquo;s Work Together
@@ -105,10 +102,6 @@ export const Contact = () => {
           padding: 2.5rem;
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
           backface-visibility: hidden;
-        }
-
-        .card-front {
-          z-index: 2;
         }
 
         .card-back {
