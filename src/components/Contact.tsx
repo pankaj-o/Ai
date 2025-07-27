@@ -1,177 +1,111 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa';
-import emailjs from '@emailjs/browser';
 
 export const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [status, setStatus] = useState({
-    submitting: false,
-    submitted: false,
-    error: false
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus({ submitting: true, submitted: false, error: false });
-
-    try {
-      await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          to_name: 'Pankaj',
-          to_email: 'er.pankaj2021@gmail.com',
-          reply_to: formData.email
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-
-      setStatus({ submitting: false, submitted: true, error: false });
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      setStatus({ submitting: false, submitted: false, error: true });
-      console.error('Error sending email:', error);
-    }
-  };
+  const [flipped, setFlipped] = useState(false);
 
   return (
-    <section id="contact" className="py-20 bg-black transition-colors duration-700">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gradient bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent transition-all duration-700">Contact Me</h2>
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8 rounded-lg shadow-lg transition-all duration-500 border border-gray-800">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-cyan-300 mb-1 transition-colors duration-500">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-cyan-300 mb-1 transition-colors duration-500">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-cyan-300 mb-1 transition-colors duration-500">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    rows={4}
-                    className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
-                    required
-                  ></textarea>
-                </div>
-                <button
-                  type="submit"
-                  disabled={status.submitting}
-                  className={`w-full py-2 px-4 rounded-md transition-all duration-300 shadow font-semibold text-white ${
-                    status.submitting
-                      ? 'bg-gray-300 cursor-not-allowed text-gray-500'
-                      : 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 hover:scale-105'
-                  }`}
-                >
-                  {status.submitting ? 'Sending...' : 'Send Message'}
-                </button>
-                {status.submitted && (
-                  <p className="text-green-400 text-center mt-2 transition-colors duration-500">
-                    Thank you for your message! I will get back to you soon.
-                  </p>
-                )}
-                {status.error && (
-                  <p className="text-red-400 text-center mt-2 transition-colors duration-500">
-                    Oops! Something went wrong. Please try again later.
-                  </p>
-                )}
-              </form>
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-cyan-300 transition-colors duration-500">Get in Touch</h3>
-                <p className="text-gray-300 transition-colors duration-500">
-                  Im always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-4 text-purple-300 transition-colors duration-500">Connect with Me</h3>
-                <div className="flex space-x-6">
-                  <a
-                    href="https://github.com/pankaj-o"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-300 hover:text-white transition-colors duration-300"
-                  >
-                    <FaGithub size={24} />
-                  </a>
-                  <a
-                    href="https://linkedin.com/in/pankaj-sharma-75597a181"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-300 hover:text-white transition-colors duration-300"
-                  >
-                    <FaLinkedin size={24} />
-                  </a>
-                  <a
-                    href="https://twitter.com/yourusername"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-300 hover:text-white transition-colors duration-300"
-                  >
-                    <FaTwitter size={24} />
-                  </a>
-                  <a
-                    href="mailto:er.pankaj2021@gmail.com"
-                    className="text-cyan-300 hover:text-white transition-colors duration-300"
-                  >
-                    <FaEnvelope size={24} />
-                  </a>
-                </div>
-              </div>
-            </div>
+    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#18181b] to-[#10151c] py-20">
+      <div
+        className="card-container"
+        onMouseEnter={() => setFlipped(true)}
+        onMouseLeave={() => setFlipped(false)}
+        tabIndex={0}
+        onFocus={() => setFlipped(true)}
+        onBlur={() => setFlipped(false)}
+        style={{ outline: 'none' }}
+      >
+        <div
+          className="card-inner"
+          style={{
+            transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          }}
+        >
+          <div className="card-face card-front">
+            <img
+              src="/Contactme.jpg"
+              alt="Contact"
+              className="w-40 h-40 rounded-full mb-6 object-cover shadow-lg"
+            />
+            <h2 className="text-2xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text mb-4">
+              Let's Connect!
+            </h2>
+            <p className="text-gray-300 text-center text-base mb-2">
+              Interested in collaborating, working together, or just want to say hello?
+            </p>
+            <p className="text-gray-400 text-center text-sm mb-2">
+              I love meeting new people, sharing ideas, and building innovative solutions. Whether you have a project in mind or want to discuss technology, feel free to reach out!
+            </p>
+            <p className="text-gray-500 text-center text-xs">
+              Hover over this card to see how you can contact me directly.
+            </p>
+          </div>
+          <div className="card-face card-back">
+            <h2 className="text-2xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text mb-4">
+              Let's Work Together
+            </h2>
+            <p className="text-gray-300 text-center text-base mb-2 leading-relaxed">
+              I'm open to freelance projects, internships, and full-time opportunities. My expertise includes electronics engineering, embedded systems, and software development.
+            </p>
+            <p className="text-gray-400 text-center text-sm mb-2">
+              I value clear communication, creative problem-solving, and delivering high-quality results. Let's build something amazing together!
+            </p>
+            <p className="text-gray-500 text-center text-xs mb-6">
+              Click the button below to send me an email. I look forward to hearing from you!
+            </p>
+            <a
+              href="mailto:er.pankaj2021@gmail.com"
+              className="px-7 py-3 rounded-md bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-lg font-semibold hover:scale-105 transition-transform duration-300 shadow-md"
+            >
+              Send Me Mail
+            </a>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .card-container {
+          width: 480px;
+          height: 600px;
+          perspective: 1200px;
+          cursor: pointer;
+        }
+
+        .card-inner {
+          width: 100%;
+          height: 100%;
+          position: relative;
+          transform-style: preserve-3d;
+          transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+
+        .card-face {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background: #18181b;
+          border: 1px solid #23272f;
+          border-radius: 1rem;
+          padding: 2.5rem;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .card-front {
+          backface-visibility: hidden;
+        }
+
+        .card-back {
+          backface-visibility: hidden;
+          transform: rotateY(180deg);
+        }
+      `}</style>
     </section>
   );
-}; 
+};
