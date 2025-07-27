@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 export const Contact = () => {
   const [flipped, setFlipped] = useState(false);
@@ -23,10 +24,12 @@ export const Contact = () => {
           }}
         >
           <div className="card-face card-front">
-            <img
+            <Image
               src="/Contactme.jpg"
               alt="Contact"
               className="w-40 h-40 rounded-full mb-6 object-cover shadow-lg"
+              width={160}
+              height={160}
             />
             <h2 className="text-2xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text mb-4">
               Let's Connect!
