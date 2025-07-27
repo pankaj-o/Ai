@@ -51,16 +51,16 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gray-50">
+    <section id="contact" className="py-20 bg-black transition-colors duration-700">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12">Contact Me</h2>
+        <h2 className="text-4xl font-bold text-center mb-12 text-gradient bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent transition-all duration-700">Contact Me</h2>
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <div className="bg-white p-8 rounded-lg shadow-md">
+            <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 p-8 rounded-lg shadow-lg transition-all duration-500 border border-gray-800">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="name" className="block text-sm font-medium text-cyan-300 mb-1 transition-colors duration-500">
                     Name
                   </label>
                   <input
@@ -69,12 +69,12 @@ export const Contact = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="email" className="block text-sm font-medium text-cyan-300 mb-1 transition-colors duration-500">
                     Email
                   </label>
                   <input
@@ -83,12 +83,12 @@ export const Contact = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
                     required
                   />
                 </div>
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="message" className="block text-sm font-medium text-cyan-300 mb-1 transition-colors duration-500">
                     Message
                   </label>
                   <textarea
@@ -97,28 +97,28 @@ export const Contact = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-2 border border-gray-700 bg-gray-800 text-white rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300"
                     required
                   ></textarea>
                 </div>
                 <button
                   type="submit"
                   disabled={status.submitting}
-                  className={`w-full py-2 px-4 rounded-md transition-colors ${
+                  className={`w-full py-2 px-4 rounded-md transition-all duration-300 shadow font-semibold text-white ${
                     status.submitting
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-blue-600 hover:bg-blue-700 text-white'
+                      ? 'bg-gray-300 cursor-not-allowed text-gray-500'
+                      : 'bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 hover:scale-105'
                   }`}
                 >
                   {status.submitting ? 'Sending...' : 'Send Message'}
                 </button>
                 {status.submitted && (
-                  <p className="text-green-600 text-center mt-2">
+                  <p className="text-green-400 text-center mt-2 transition-colors duration-500">
                     Thank you for your message! I will get back to you soon.
                   </p>
                 )}
                 {status.error && (
-                  <p className="text-red-600 text-center mt-2">
+                  <p className="text-red-400 text-center mt-2 transition-colors duration-500">
                     Oops! Something went wrong. Please try again later.
                   </p>
                 )}
@@ -128,19 +128,19 @@ export const Contact = () => {
             {/* Contact Information */}
             <div className="space-y-8">
               <div>
-                <h3 className="text-2xl font-semibold mb-4">Get in Touch</h3>
-                <p className="text-gray-600">
+                <h3 className="text-2xl font-semibold mb-4 text-cyan-300 transition-colors duration-500">Get in Touch</h3>
+                <p className="text-gray-300 transition-colors duration-500">
                   Im always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
                 </p>
               </div>
               <div>
-                <h3 className="text-xl font-semibold mb-4">Connect with Me</h3>
+                <h3 className="text-xl font-semibold mb-4 text-purple-300 transition-colors duration-500">Connect with Me</h3>
                 <div className="flex space-x-6">
                   <a
                     href="https://github.com/pankaj-o"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-gray-900"
+                    className="text-cyan-300 hover:text-white transition-colors duration-300"
                   >
                     <FaGithub size={24} />
                   </a>
@@ -148,7 +148,7 @@ export const Contact = () => {
                     href="https://linkedin.com/in/pankaj-sharma-75597a181"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-gray-900"
+                    className="text-cyan-300 hover:text-white transition-colors duration-300"
                   >
                     <FaLinkedin size={24} />
                   </a>
@@ -156,13 +156,13 @@ export const Contact = () => {
                     href="https://twitter.com/yourusername"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-600 hover:text-gray-900"
+                    className="text-cyan-300 hover:text-white transition-colors duration-300"
                   >
                     <FaTwitter size={24} />
                   </a>
                   <a
                     href="mailto:er.pankaj2021@gmail.com"
-                    className="text-gray-600 hover:text-gray-900"
+                    className="text-cyan-300 hover:text-white transition-colors duration-300"
                   >
                     <FaEnvelope size={24} />
                   </a>
