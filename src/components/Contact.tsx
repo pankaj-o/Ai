@@ -23,6 +23,7 @@ export const Contact = () => {
             transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
           }}
         >
+          {/* Front Face */}
           <div className="card-face card-front">
             <Image
               src="/Contactme.jpg"
@@ -32,7 +33,7 @@ export const Contact = () => {
               height={160}
             />
             <h2 className="text-2xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text mb-4">
-              Let's Connect!
+              Let&rsquo;s Connect!
             </h2>
             <p className="text-gray-300 text-center text-base mb-2">
               Interested in collaborating, working together, or just want to say hello?
@@ -43,16 +44,21 @@ export const Contact = () => {
             <p className="text-gray-500 text-center text-xs">
               Hover over this card to see how you can contact me directly.
             </p>
+            <p className="text-gray-500 text-center text-xs mb-6">
+              Click the button below to send me an email. I look forward to hearing from you!
+            </p>
           </div>
+
+          {/* Back Face */}
           <div className="card-face card-back">
             <h2 className="text-2xl font-extrabold text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text mb-4">
-              Let's Work Together
+              Let&rsquo;s Work Together
             </h2>
             <p className="text-gray-300 text-center text-base mb-2 leading-relaxed">
-              I'm open to freelance projects, internships, and full-time opportunities. My expertise includes electronics engineering, embedded systems, and software development.
+              I&rsquo;m open to freelance projects, internships, and full-time opportunities. My expertise includes electronics engineering, embedded systems, and software development.
             </p>
             <p className="text-gray-400 text-center text-sm mb-2">
-              I value clear communication, creative problem-solving, and delivering high-quality results. Let's build something amazing together!
+              I value clear communication, creative problem-solving, and delivering high-quality results. Let&rsquo;s build something amazing together!
             </p>
             <p className="text-gray-500 text-center text-xs mb-6">
               Click the button below to send me an email. I look forward to hearing from you!
@@ -98,14 +104,14 @@ export const Contact = () => {
           border-radius: 1rem;
           padding: 2.5rem;
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+          backface-visibility: hidden;
         }
 
         .card-front {
-          backface-visibility: hidden;
+          z-index: 2;
         }
 
         .card-back {
-          backface-visibility: hidden;
           transform: rotateY(180deg);
         }
       `}</style>
