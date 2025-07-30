@@ -7,7 +7,7 @@ export const Contact = () => {
   const [flipped, setFlipped] = useState(false);
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#18181b] to-[#10151c] py-20">
+    <section id="contact"  className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#18181b] to-[#10151c] py-20">
       <div
         className="card-container"
         onMouseEnter={() => setFlipped(true)}
