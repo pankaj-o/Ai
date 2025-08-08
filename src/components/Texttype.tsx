@@ -50,6 +50,7 @@ const TextType = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(!startOnVisible);
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
   const cursorRef = useRef<HTMLSpanElement>(null);
   const containerRef = useRef<HTMLElement>(null);
 
@@ -86,16 +87,22 @@ const TextType = ({
 
   useEffect(() => {
     if (showCursor && cursorRef.current) {
-      gsap.set(cursorRef.current, { opacity: 1 });
-      gsap.to(cursorRef.current, {
-        opacity: 0,
-        duration: cursorBlinkDuration,
-        repeat: -1,
-        yoyo: true,
-        ease: "power2.inOut",
-      });
+      if (isTypingComplete) {
+        // Stop blinking when typing is complete
+        gsap.set(cursorRef.current, { opacity: 1 });
+      } else {
+        // Continue blinking while typing
+        gsap.set(cursorRef.current, { opacity: 1 });
+        gsap.to(cursorRef.current, {
+          opacity: 0,
+          duration: cursorBlinkDuration,
+          repeat: -1,
+          yoyo: true,
+          ease: "power2.inOut",
+        });
+      }
     }
-  }, [showCursor, cursorBlinkDuration]);
+  }, [showCursor, cursorBlinkDuration, isTypingComplete]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -112,6 +119,7 @@ const TextType = ({
         if (displayedText === "") {
           setIsDeleting(false);
           if (currentTextIndex === textArray.length - 1 && !loop) {
+            setIsTypingComplete(true);
             return;
           }
 
@@ -142,6 +150,9 @@ const TextType = ({
           timeout = setTimeout(() => {
             setIsDeleting(true);
           }, pauseDuration);
+        } else {
+          // Single text item, typing is complete
+          setIsTypingComplete(true);
         }
       }
     };

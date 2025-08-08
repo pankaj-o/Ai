@@ -13,9 +13,9 @@ export const Projects = () => {
       live: null,
     },
     {
-      title: 'Restaurant Website ',
-      name: 'El Toro Restaurant Website',
-      description: 'A modern, responsive website for El Toro Spanish Restaurant in Delmenhorst. Features online table reservations, menu display, and a beautiful user interface showcasing the restaurant\'s authentic Spanish cuisine and atmosphere.',
+      title: 'Restaurant Website',
+      name: 'Oroverde – Mediterrane Eleganz trifft französische Raffinesse',
+      description: 'A modern, responsive website for Oroverde Restaurant, showcasing Mediterranean elegance meets French culinary refinement. Features online reservations, menu display, and an elegant user interface highlighting the restaurant\'s sophisticated dining experience and fine cuisine.',
       technologies: ['Next.js', 'React', 'Tailwind CSS', 'TypeScript', 'Vercel'],
       github: 'https://github.com/pankaj-o/aioli-flame',
       features: [],
