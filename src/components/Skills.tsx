@@ -1,14 +1,15 @@
 import React from 'react';
 import { FaReact, FaNodeJs, FaGitAlt, FaCode } from 'react-icons/fa';
-import { SiJavascript, SiTailwindcss, SiNextdotjs, SiArduino, SiMongodb } from 'react-icons/si';
+import { SiJavascript, SiTailwindcss, SiNextdotjs, SiMongodb, SiCplusplus } from 'react-icons/si';
 import { BsCpu, BsMotherboard, BsGraphUp } from 'react-icons/bs';
 
 const skills = [
   // Electronics & Embedded Systems
   { name: 'Embedded Systems', icon: <BsCpu className="text-[#00A0E9]" /> },
   { name: 'SystemVerilog', icon: <BsMotherboard className="text-[#FF6B6B]" /> },
-  { name: 'Arduino', icon: <SiArduino className="text-[#00979D]" /> },
-  { name: 'PCB Design', icon: <BsMotherboard className="text-[#4CAF50]" /> },
+  { name: 'FPGA', icon: <BsCpu className="text-[#8B5CF6]" /> },
+  { name: 'VHDL', icon: <BsMotherboard className="text-[#00D9FF]" /> },
+  { name: 'C++', icon: <SiCplusplus className="text-[#00599C]" /> },
   // Signal Processing & MATLAB
   { name: 'MATLAB', icon: <FaCode className="text-[#0076A8]" /> },
   { name: 'Signal Processing', icon: <BsGraphUp className="text-[#FF9800]" /> },
