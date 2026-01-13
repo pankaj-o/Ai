@@ -12,15 +12,6 @@ export const Projects = () => {
       features: [],
       live: null,
     },
-    {
-      title: 'Restaurant Website',
-      name: 'Oroverde – Mediterrane Eleganz trifft französische Raffinesse',
-      description: 'A modern, responsive website for Oroverde Restaurant, showcasing Mediterranean elegance meets French culinary refinement. Features online reservations, menu display, and an elegant user interface highlighting the restaurant\'s sophisticated dining experience and fine cuisine.',
-      technologies: ['Next.js', 'React', 'Tailwind CSS', 'TypeScript', 'Vercel'],
-      github: 'https://github.com/pankaj-o/aioli-flame',
-      features: [],
-      live: 'https://aioli-flame.vercel.app/',
-    },
   ];
 
   return (
