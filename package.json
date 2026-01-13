@@ -15,7 +15,7 @@
     "@vercel/analytics": "^1.5.0",
     "framer-motion": "^12.23.0",
     "gsap": "^3.13.0",
-    "next": "15.3.1",
+    "next": "15.5.8",
     "ogl": "^1.0.11",
     "openmeteo": "^1.2.0",
     "react": "^19.0.0",
