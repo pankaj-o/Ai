@@ -23,7 +23,7 @@ export const SideProjects = () => {
     <section id="side-projects" className="py-20 bg-[#10151c] transition-colors duration-700">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-12 text-gradient bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent transition-all duration-700">Side Projects</h2>
-        <p className="text-center text-gray-400 mb-8 text-lg">Websites and web applications I've built</p>
+        <p className="text-center text-gray-400 mb-8 text-lg">Websites and web applications I&apos;ve built</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sideProjects.map((project, index) => (
             <div

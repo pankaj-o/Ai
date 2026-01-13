@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaMapMarkerAlt, FaThermometerHalf, FaCloud, FaSun, FaCloudRain, FaSnowflake } from 'react-icons/fa';
 
 interface WeatherData {
@@ -10,13 +10,13 @@ interface WeatherData {
   weatherCode: number;
 }
 
+// Bremen, Germany coordinates as fallback
+const BREMEN_COORDS = { lat: 53.0793, lon: 8.8017 };
+
 const WeatherWidget = () => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Bremen, Germany coordinates as fallback
-  const BREMEN_COORDS = { lat: 53.0793, lon: 8.8017 };
 
   const getWeatherIcon = (weatherCode: number) => {
     if (weatherCode >= 0 && weatherCode <= 3) return <FaSun className="text-yellow-400" />;
@@ -38,7 +38,7 @@ const WeatherWidget = () => {
     return 'Cloudy';
   };
 
-  const getWeather = async (lat: number, lon: number, isDefaultLocation = false) => {
+  const getWeather = useCallback(async (lat: number, lon: number, isDefaultLocation = false) => {
     try {
       setLoading(true);
       const response = await fetch(
@@ -78,7 +78,7 @@ const WeatherWidget = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     const handleLocationSuccess = (position: GeolocationPosition) => {
@@ -97,7 +97,7 @@ const WeatherWidget = () => {
       // Show Bremen weather when geolocation is not supported
       getWeather(BREMEN_COORDS.lat, BREMEN_COORDS.lon, true);
     }
-  }, []);
+  }, [getWeather]);
 
   if (loading) {
     return (
