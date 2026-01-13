@@ -3,6 +3,7 @@
 import { useState, FormEvent, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 function LoginForm() {
   const router = useRouter();
@@ -145,14 +146,14 @@ function LoginForm() {
           </form>
 
           {/* Signup Link */}
-          {/* <div className="mt-6 text-center">
+          <div className="mt-6 text-center">
             <p className="text-gray-400">
               Don't have an account?{' '}
               <Link href="/signup" className="text-emerald-400 hover:text-emerald-300 font-semibold">
                 Sign up
               </Link>
             </p>
-          </div> */}
+          </div>
         </div>
       </div>
     </main>
