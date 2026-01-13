@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
         loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
         return NextResponse.redirect(loginUrl);
       }
-    } catch (error) {
+    } catch {
       // If there's an error checking session, redirect to login
       const loginUrl = new URL('/login', request.url);
       return NextResponse.redirect(loginUrl);

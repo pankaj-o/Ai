@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 import { getDb } from '@/lib/games/qa/db';
-import { QACardSchema, QACardUpdateSchema, COLLECTIONS } from '@/lib/games/qa/models';
+import { QACardUpdateSchema, COLLECTIONS } from '@/lib/games/qa/models';
 import { getCurrentUserId } from '@/lib/games/qa/auth';
 
 /**
@@ -110,7 +110,7 @@ export async function PATCH(
     const validationResult = QACardUpdateSchema.safeParse(body);
     if (!validationResult.success) {
       return NextResponse.json(
-        { error: 'Validation failed', details: validationResult.error.errors },
+        { error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }
@@ -118,7 +118,7 @@ export async function PATCH(
     const updateData = validationResult.data;
     
     // Handle empty meaning string - convert to undefined
-    const cleanedUpdateData: any = { ...updateData };
+    const cleanedUpdateData: Record<string, unknown> = { ...updateData };
     if ('meaning' in cleanedUpdateData && cleanedUpdateData.meaning === '') {
       cleanedUpdateData.meaning = undefined;
     }

@@ -32,7 +32,7 @@ export default function SignupPage() {
       if (!response.ok) {
         if (response.status === 400 && data.details) {
           const fieldErrors: { email?: string; password?: string; name?: string } = {};
-          data.details.forEach((detail: any) => {
+          data.details.forEach((detail: { path: string[]; message: string }) => {
             if (detail.path[0] === 'email') fieldErrors.email = detail.message;
             if (detail.path[0] === 'password') fieldErrors.password = detail.message;
             if (detail.path[0] === 'name') fieldErrors.name = detail.message;

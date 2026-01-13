@@ -13,7 +13,7 @@ export default function QAEditPage({
 }) {
   const router = useRouter();
   const [id, setId] = useState<string | null>(null);
-  const [card, setCard] = useState<{ question: string; answer: string } | null>(null);
+  const [card, setCard] = useState<{ question: string; answer: string; meaning?: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

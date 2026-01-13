@@ -2,7 +2,7 @@
 
 import { useState, FormEvent, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+// import Link from 'next/link';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 function LoginForm() {
@@ -34,7 +34,7 @@ function LoginForm() {
       if (!response.ok) {
         if (response.status === 400 && data.details) {
           const fieldErrors: { email?: string; password?: string } = {};
-          data.details.forEach((detail: any) => {
+          data.details.forEach((detail: { path: string[]; message: string }) => {
             if (detail.path[0] === 'email') fieldErrors.email = detail.message;
             if (detail.path[0] === 'password') fieldErrors.password = detail.message;
           });

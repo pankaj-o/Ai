@@ -7,7 +7,7 @@ import { getCurrentUserId } from '@/lib/games/qa/auth';
  * GET /api/qa-cards
  * Get all Q&A cards for the current user
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const userId = await getCurrentUserId();
     
@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
     const validationResult = QACardSchema.safeParse(body);
     if (!validationResult.success) {
       return NextResponse.json(
-        { error: 'Validation failed', details: validationResult.error.errors },
+        { error: 'Validation failed', details: validationResult.error.issues },
         { status: 400 }
       );
     }

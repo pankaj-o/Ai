@@ -77,7 +77,7 @@ export default function QACardForm({ initialData, cardId, onCancel }: QACardForm
         if (response.status === 401) {
           throw new Error('Unauthorized. Please check your authentication setup.');
         } else if (response.status === 400 && errorData.details) {
-          throw new Error(`Validation error: ${errorData.details.map((d: any) => d.message).join(', ')}`);
+          throw new Error(`Validation error: ${errorData.details.map((d: { message: string }) => d.message).join(', ')}`);
         } else if (response.status === 500) {
           throw new Error(errorMessage + ' Check your MongoDB connection and server logs.');
         }
