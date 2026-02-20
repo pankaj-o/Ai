@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 type IssueStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 type IssuePriority = 'LOW' | 'MEDIUM' | 'HIGH';
@@ -18,11 +18,21 @@ interface JiraIssue {
   updatedAt: string;
 }
 
+type IssuePatch = Partial<Pick<JiraIssue, 'title' | 'description' | 'status' | 'priority' | 'tags' | 'dueDate'>>;
+
 const columns: Array<{ key: IssueStatus; label: string }> = [
   { key: 'TODO', label: 'To Do' },
   { key: 'IN_PROGRESS', label: 'In Progress' },
   { key: 'DONE', label: 'Done' },
 ];
+
+const emptyForm = {
+  title: '',
+  description: '',
+  priority: 'MEDIUM' as IssuePriority,
+  tags: '',
+  dueDate: '',
+};
 
 export default function JiraBoard() {
   const [issues, setIssues] = useState<JiraIssue[]>([]);
@@ -30,15 +40,10 @@ export default function JiraBoard() {
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [editingIssueId, setEditingIssueId] = useState<string | null>(null);
   const [draggedIssueId, setDraggedIssueId] = useState<string | null>(null);
   const [dragOverStatus, setDragOverStatus] = useState<IssueStatus | null>(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    priority: 'MEDIUM' as IssuePriority,
-    tags: '',
-    dueDate: '',
-  });
+  const [formData, setFormData] = useState(emptyForm);
 
   const fetchIssues = async () => {
     try {
@@ -70,50 +75,12 @@ export default function JiraBoard() {
     }, {} as Record<IssueStatus, JiraIssue[]>);
   }, [issues]);
 
-  const handleCreateIssue = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!formData.title.trim()) return;
-
-    try {
-      setCreating(true);
-      const tags = formData.tags
-        .split(',')
-        .map((tag) => tag.trim())
-        .filter(Boolean);
-
-      const response = await fetch('/api/jira-issues', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: formData.title,
-          description: formData.description,
-          priority: formData.priority,
-          tags,
-          dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : null,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create issue');
-      }
-
-      const data = await response.json();
-      setIssues((prev) => [data.issue, ...prev]);
-      setFormData({
-        title: '',
-        description: '',
-        priority: 'MEDIUM',
-        tags: '',
-        dueDate: '',
-      });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create issue');
-    } finally {
-      setCreating(false);
-    }
+  const resetForm = () => {
+    setFormData(emptyForm);
+    setEditingIssueId(null);
   };
 
-  const updateIssue = async (id: string, payload: Partial<JiraIssue>) => {
+  const updateIssue = async (id: string, payload: IssuePatch) => {
     try {
       setUpdatingId(id);
 
@@ -129,10 +96,60 @@ export default function JiraBoard() {
 
       const data = await response.json();
       setIssues((prev) => prev.map((issue) => (issue._id === id ? data.issue : issue)));
+      return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update issue');
+      return false;
     } finally {
       setUpdatingId(null);
+    }
+  };
+
+  const handleCreateOrEditIssue = async (e: FormEvent) => {
+    e.preventDefault();
+    const title = formData.title.trim();
+    if (!title) return;
+
+    try {
+      setCreating(true);
+      setError(null);
+
+      const payload = {
+        title,
+        description: formData.description.trim(),
+        priority: formData.priority,
+        tags: formData.tags
+          .split(',')
+          .map((tag) => tag.trim())
+          .filter(Boolean),
+        dueDate: formData.dueDate ? new Date(formData.dueDate).toISOString() : null,
+      };
+
+      if (editingIssueId) {
+        const ok = await updateIssue(editingIssueId, payload);
+        if (ok) {
+          resetForm();
+        }
+        return;
+      }
+
+      const response = await fetch('/api/jira-issues', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create issue');
+      }
+
+      const data = await response.json();
+      setIssues((prev) => [data.issue, ...prev]);
+      resetForm();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : editingIssueId ? 'Failed to update issue' : 'Failed to create issue');
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -146,6 +163,9 @@ export default function JiraBoard() {
       }
 
       setIssues((prev) => prev.filter((issue) => issue._id !== id));
+      if (editingIssueId === id) {
+        resetForm();
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete issue');
     } finally {
@@ -154,31 +174,45 @@ export default function JiraBoard() {
   };
 
   const handleDropToColumn = async (status: IssueStatus) => {
-    if (!draggedIssueId) {
-      return;
-    }
+    if (!draggedIssueId) return;
 
     const draggedIssue = issues.find((issue) => issue._id === draggedIssueId);
-    if (!draggedIssue) {
-      setDraggedIssueId(null);
-      setDragOverStatus(null);
-      return;
-    }
-
     setDraggedIssueId(null);
     setDragOverStatus(null);
 
-    if (draggedIssue.status === status) {
-      return;
-    }
+    if (!draggedIssue || draggedIssue.status === status) return;
 
     await updateIssue(draggedIssue._id, { status });
   };
 
+  const editIssueInTopForm = (issue: JiraIssue) => {
+    setEditingIssueId(issue._id);
+    setFormData({
+      title: issue.title,
+      description: issue.description || '',
+      priority: issue.priority,
+      tags: issue.tags.join(', '),
+      dueDate: issue.dueDate ? issue.dueDate.slice(0, 10) : '',
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="space-y-8">
-      <form onSubmit={handleCreateIssue} className="bg-gray-800/50 border border-gray-700 rounded-xl p-5 space-y-4">
-        <h2 className="text-xl font-semibold text-white">Create New Issue</h2>
+      <form onSubmit={handleCreateOrEditIssue} className="bg-gray-800/50 border border-gray-700 rounded-xl p-5 space-y-4">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-xl font-semibold text-white">{editingIssueId ? 'Edit Issue' : 'Create New Issue'}</h2>
+          {editingIssueId && (
+            <button
+              type="button"
+              onClick={resetForm}
+              className="px-3 py-1.5 text-sm border border-gray-600 text-gray-300 rounded-lg hover:text-white hover:border-gray-500"
+            >
+              Cancel Edit
+            </button>
+          )}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <input
             type="text"
@@ -223,14 +257,12 @@ export default function JiraBoard() {
           disabled={creating}
           className="px-5 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold rounded-lg hover:from-emerald-400 hover:to-teal-400 disabled:opacity-60"
         >
-          {creating ? 'Creating...' : 'Create Issue'}
+          {creating ? (editingIssueId ? 'Updating...' : 'Creating...') : editingIssueId ? 'Update Issue' : 'Create Issue'}
         </button>
       </form>
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/40 text-red-300 rounded-lg p-3">
-          {error}
-        </div>
+        <div className="bg-red-500/10 border border-red-500/40 text-red-300 rounded-lg p-3">{error}</div>
       )}
 
       {loading ? (
@@ -267,26 +299,47 @@ export default function JiraBoard() {
                   groupedIssues[column.key].map((issue) => (
                     <article
                       key={issue._id}
-                      draggable
-                      onDragStart={() => setDraggedIssueId(issue._id)}
-                      onDragEnd={() => {
-                        setDraggedIssueId(null);
-                        setDragOverStatus(null);
-                      }}
-                      className={`bg-gray-800/70 border rounded-lg p-3 space-y-3 cursor-grab active:cursor-grabbing ${
+                      className={`bg-gray-800/70 border rounded-lg p-3 space-y-3 ${
                         draggedIssueId === issue._id ? 'border-emerald-500/70 opacity-70' : 'border-gray-700'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-2">
                         <h4 className="text-white font-semibold text-sm leading-tight">{issue.title}</h4>
-                        <button
-                          type="button"
-                          onClick={() => deleteIssue(issue._id)}
-                          disabled={updatingId === issue._id}
-                          className="text-red-300 hover:text-red-200 disabled:opacity-50"
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
+                        <div className="flex items-center gap-1">
+                          {issue.status === 'TODO' && (
+                            <button
+                              type="button"
+                              onClick={() => editIssueInTopForm(issue)}
+                              disabled={updatingId === issue._id}
+                              className="text-emerald-300 hover:text-emerald-200 disabled:opacity-50"
+                              title="Edit in form"
+                            >
+                              <PencilSquareIcon className="h-4 w-4" />
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => deleteIssue(issue._id)}
+                            disabled={updatingId === issue._id}
+                            className="text-red-300 hover:text-red-200 disabled:opacity-50"
+                            title="Delete"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </button>
+                          <button
+                            type="button"
+                            draggable
+                            onDragStart={() => setDraggedIssueId(issue._id)}
+                            onDragEnd={() => {
+                              setDraggedIssueId(null);
+                              setDragOverStatus(null);
+                            }}
+                            className="text-gray-400 hover:text-gray-200 cursor-grab active:cursor-grabbing"
+                            title="Drag to move"
+                          >
+                            <Bars3Icon className="h-4 w-4" />
+                          </button>
+                        </div>
                       </div>
 
                       {issue.description && (
@@ -325,9 +378,7 @@ export default function JiraBoard() {
                       </div>
 
                       {issue.dueDate && (
-                        <p className="text-xs text-amber-300">
-                          Due: {new Date(issue.dueDate).toLocaleDateString()}
-                        </p>
+                        <p className="text-xs text-amber-300">Due: {new Date(issue.dueDate).toLocaleDateString()}</p>
                       )}
                     </article>
                   ))
