@@ -12,7 +12,7 @@ function LoginForm() {
   const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const redirect = searchParams.get('redirect') || '/games/qa/manage';
+  const redirect = searchParams.get('redirect') || '/choose';
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -59,6 +59,14 @@ function LoginForm() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#18181b] to-[#10151c] flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
+        <div className="mb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center px-4 py-2 border border-gray-700 text-gray-300 rounded-lg hover:bg-gray-800/50 hover:text-white transition-colors"
+          >
+            Home
+          </Link>
+        </div>
         <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-8">
           <h1 className="text-3xl font-bold text-white mb-2 text-center">Login</h1>
           <p className="text-gray-400 text-center mb-6">Sign in to access your Q&A cards</p>

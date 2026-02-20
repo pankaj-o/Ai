@@ -3,8 +3,12 @@ import type { NextRequest } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 
 export async function middleware(request: NextRequest) {
-  // Protect /games/qa routes
-  if (request.nextUrl.pathname.startsWith('/games/qa')) {
+  // Protect app routes that require authentication.
+  if (
+    request.nextUrl.pathname.startsWith('/choose') ||
+    request.nextUrl.pathname.startsWith('/games/qa') ||
+    request.nextUrl.pathname.startsWith('/personal/jira')
+  ) {
     try {
       const session = await getSession();
       
@@ -25,5 +29,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/games/qa/:path*',
+  matcher: ['/choose/:path*', '/games/qa/:path*', '/personal/jira/:path*'],
 };
